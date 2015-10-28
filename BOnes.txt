@@ -1,0 +1,19 @@
+Head: 6
+
+Chest: 35
+Crotch: 69??
+
+Right:
+	Shoulder: 8
+	Elbow: 9
+	Wrist: 2
+
+	Hip: 63 -> 67, 68, 64 65, 66
+
+Left:
+	Shoulder: 36
+	Elbow: 37
+	Wrist: 60
+
+	Hip: 17 -> 73, 74, 70 71, 72
+	
