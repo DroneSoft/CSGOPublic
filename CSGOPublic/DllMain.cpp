@@ -53,10 +53,18 @@ CRITICAL_SECTION lpCritSection;
 
 void RunClient(CUserCmd* pCmd)
 {
+	IClientEntity* pLocal = pClientEntList->GetClientEntity(pEngine->GetLocalPlayer());
 	//do stuff
 	//if (GetAsyncKeyState(VK_INSERT))
 	//	printf_s("DroneSoft: Insert Pressed.");
 	//gDrone->UpdateAim();
+
+	D3DXVECTOR3 Punch = pLocal->GetPunchAngle();
+	pCmd->viewangles -= Punch * 2.0f;
+
+	if (pCmd->buttons & IN_JUMP)
+		if (!(pLocal->GetFlags() & FL_ONGROUND))
+			pCmd->buttons &= ~IN_JUMP;
 }
 
 bool __stdcall nCreateMove(float flInputSampleTime, CUserCmd *cmd)
