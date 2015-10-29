@@ -51,6 +51,7 @@ extern CreateInterfaceFn fnIVGui2;
 #define ANG_CLIP( ang )		if( ang > 180.0f ) { ang -= 360.0f; } else if( ang <- 180.0f ) { ang += 360.0f; }
 #define	GENTITYNUM_BITS		10
 #define	MAX_GENTITIES		( 1 << GENTITYNUM_BITS )
+#define	FL_ONGROUND (1<<0)
 
 #define INTERFACEVERSION_PLAYERINFOMANAGER			"PlayerInfoManager002"
 
@@ -67,6 +68,7 @@ class IClientCollideable;
 #define DISPSURF_FLAG_BUILDABLE		(1<<2)
 #define DISPSURF_FLAG_SURFPROP1		(1<<3)
 #define DISPSURF_FLAG_SURFPROP2		(1<<4)
+
 
 class IPlayerInfoManager
 {
@@ -562,7 +564,7 @@ public:
 	}
 	bool isHostage()
 	{
-		return *reinterpret_cast<int *>((DWORD)this + (DWORD)0xD);
+		return *reinterpret_cast< int *>((DWORD)this + (DWORD)0xD);
 	}
 	bool GetHealthFraction(int ent_num)
 	{
@@ -572,6 +574,10 @@ public:
 	bool GetDormant()
 	{
 		return *reinterpret_cast<int*>((DWORD)this + (DWORD)0xE9);
+	}
+	D3DXVECTOR3 GetPunchAngle()
+	{
+		return *reinterpret_cast< D3DXVECTOR3* >((DWORD)this + (DWORD)+0x13E8);
 	}
 };
 
@@ -821,6 +827,33 @@ enum TraceType_t
 	TRACE_WORLD_ONLY,				// NOTE: This does *not* test static props!!!
 	TRACE_ENTITIES_ONLY,			// NOTE: This version will *not* test static props
 	TRACE_EVERYTHING_FILTER_PROPS,	// NOTE: This version will pass the IHandleEntity for props through the filter, unlike all other filters
+};
+
+enum PlayerControls
+{
+	IN_ATTACK = (1 << 0),
+	IN_JUMP = (1 << 1),
+	IN_DUCK = (1 << 2),
+	IN_FORWARD = (1 << 3),
+	IN_BACK = (1 << 4),
+	IN_USE = (1 << 5),
+	IN_CANCEL = (1 << 6),
+	IN_LEFT = (1 << 7),
+	IN_RIGHT = (1 << 8),
+	IN_MOVELEFT = (1 << 9),
+	IN_MOVERIGHT = (1 << 10),
+	IN_ATTACK2 = (1 << 11),
+	IN_RUN = (1 << 12),
+	IN_RELOAD = (1 << 13),
+	IN_ALT1 = (1 << 14),
+	IN_ALT2 = (1 << 15),
+	IN_SCORE = (1 << 16),	// Used by client.dll for when scoreboard is held down
+	IN_SPEED = (1 << 17),	// Player is holding the speed key
+	IN_WALK = (1 << 18),	// Player holding walk key
+	IN_ZOOM = (1 << 19),	// Zoom key for HUD zoom
+	IN_WEAPON1 = (1 << 20),	// weapon defines these bits
+	IN_WEAPON2 = (1 << 21),	// weapon defines these bits
+	IN_BULLRUSH = (1 << 22),
 };
 
 extern IBaseClientDLL*			pClient;
