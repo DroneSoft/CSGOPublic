@@ -15,7 +15,9 @@ Color White(255, 255, 255, 255);
 Color Black(0, 0, 0, 255);
 
 MEMORY_BASIC_INFORMATION mbi;
+
 bool bOnce = false;
+bool bRes = false;
 
 typedef void(__thiscall *PaintTraverse)(void*, unsigned int, bool, bool);
 typedef bool(__thiscall *CreateMove)(void*, float flInputSampleTime, CUserCmd *cmd);
@@ -87,12 +89,28 @@ void __fastcall HookedPaintTraverse(void* ecx, void* edx, int VGUIPanel, bool Fo
 
 	if (!strcmp("MatSystemTopPanel", pPanel->GetName(VGUIPanel)))
 	{
+		pEngine->GetScreenSize(sScreenSize2.iWidth, sScreenSize2.iHeight);
+
+		if (!bRes && (sScreenSize2.iWidth != sScreenSize.iWidth || sScreenSize2.iHeight != sScreenSize.iHeight))
+		{
+			sScreenSize.iWidth = sScreenSize2.iWidth;
+			sScreenSize.iHeight = sScreenSize2.iHeight;
+			bRes = true;
+		}
+
 		if (!bOnce)
 		{
 			SegoeUI = pSurface->FontCreate();
 			pSurface->SetFontGlyphSet(SegoeUI, "Segoe UI", 14, 650, 0, 0, FONTFLAG_DROPSHADOW);
 			bOnce = true;
 		} 
+
+		if (bRes)
+		{
+			SegoeUI = pSurface->FontCreate();
+			pSurface->SetFontGlyphSet(SegoeUI, "Segoe UI", 14, 650, 0, 0, FONTFLAG_DROPSHADOW);
+			bRes = false;
+		}
 
 		if (pEngine->IsInGame() && pEngine->IsConnected())
 		{

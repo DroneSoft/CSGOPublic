@@ -8,6 +8,12 @@
 //interfaces.h pretty much c+p'd this from source engine
 //rebuilds is a mix of community and me.
 
+struct ScreenSize_t
+{
+	int iWidth;
+	int iHeight;
+};
+
 class IBaseClientDLL;
 class IVEngineClient;
 class IPanel;
@@ -577,7 +583,7 @@ public:
 	}
 	D3DXVECTOR3 GetPunchAngle()
 	{
-		return *reinterpret_cast< D3DXVECTOR3* >((DWORD)this + (DWORD)+0x13E8);
+		return *reinterpret_cast< D3DXVECTOR3* >((DWORD)this + (DWORD)0x13E8);
 	}
 };
 
@@ -864,6 +870,8 @@ extern ISurface*				pSurface;
 extern CGlobalVarsBase*			pGlobals;
 extern IEngineTrace*			pEngineTrace;
 extern unsigned long			espfont;
+extern ScreenSize_t sScreenSize;
+extern ScreenSize_t sScreenSize2;
 
 class CFakeQuery : public IDirect3DQuery9
 {
