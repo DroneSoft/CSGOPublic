@@ -7,6 +7,7 @@ public:
 	void OutlinedRect(int x, int y, int w, int h, Color& color);
 	void DrawHealthBar(int x, int y, float health, int w, int h, Color Draw);
 	void FillRGBA(int x, int y, int w, int h, Color colour);
+	void OutlineRGBA(int x, int y, int w, int h, int lw, Color color);
 };
 
 extern CDrawing cDraw;

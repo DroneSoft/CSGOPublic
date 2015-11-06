@@ -47,7 +47,7 @@
 #include "D3D9Drawing.h"
 #include "CMenu.h"
 
-extern unsigned long SegoeUI;
+extern unsigned long Arial;
 
 DWORD WINAPI HackThread(PVOID pThreadModule);
 void InitGameHooks();
