@@ -100,15 +100,15 @@ void __fastcall HookedPaintTraverse(void* ecx, void* edx, int VGUIPanel, bool Fo
 
 		if (!bOnce)
 		{
-			SegoeUI = pSurface->FontCreate();
-			pSurface->SetFontGlyphSet(SegoeUI, "Segoe UI", 14, 650, 0, 0, FONTFLAG_DROPSHADOW);
+			Arial = pSurface->FontCreate();
+			pSurface->SetFontGlyphSet(Arial, "Arial", 14, 500, 0, 0, FONTFLAG_OUTLINE);
 			bOnce = true;
 		} 
 
 		if (bRes)
 		{
-			SegoeUI = pSurface->FontCreate();
-			pSurface->SetFontGlyphSet(SegoeUI, "Segoe UI", 14, 650, 0, 0, FONTFLAG_DROPSHADOW);
+			Arial = pSurface->FontCreate();
+			pSurface->SetFontGlyphSet(Arial, "Arial", 14, 500, 0, 0, FONTFLAG_OUTLINE);
 			bRes = false;
 		}
 

@@ -73,10 +73,25 @@ void CDrone::ESPEngage(int i, IClientEntity *pEntity)
 	if (!GetBonePosition(pEntity, bonePos, 6))
 		return;
 
-	if (pEntity->GetTeamNum() == 3)
-		drawColor = Color(0, 0, 200, 255);
+	D3DXVECTOR3 vHead, vFoot;
+	vFoot = pEntity->GetOrigin();
+
+	if (pEntity->GetFlags() & FL_DUCKING)
+	{
+		vHead = vFoot + D3DXVECTOR3(0, 0, 50.f);
+	}
 	else
-		drawColor = Color(200, 0, 0, 255);
+	{
+		vHead = vFoot + D3DXVECTOR3(0, 0, 70.f);
+	}
+
+	D3DXVECTOR3 iFoot, iHead;
+	//Vector vScreen;
+
+	if (pEntity->GetTeamNum() == 3)
+		drawColor = Color(156, 192, 255, 255);
+	else
+		drawColor = Color(255, 71, 71, 255);
 
 	D3DXVECTOR3 headPos, Screen;
 
@@ -85,41 +100,28 @@ void CDrone::ESPEngage(int i, IClientEntity *pEntity)
 
 	if (Health > 0)
 	{
-		if (cMath.WorldToScreen(bonePos, headPos) && cMath.WorldToScreen(pEntity->GetOrigin(), Screen))
+		if (cMath.WorldToScreen(vFoot, iFoot) && cMath.WorldToScreen(vHead, iHead))
 		{
-			float Height = (Screen.y - headPos.y) + 5.0f;
-			float Width = Height / 1.75;
+			float h = (iFoot.y - iHead.y);
 
-			if (Width < 15)
-				Width = 15;
+			float w = h / 4.f;
 
-			//name
-			cDraw.DrawString(Screen.x, Screen.y - Height - 15, drawColor, SegoeUI, true, "%s", enemyInfo.name); //not scaling font height so w/e
+			//Box
+			cDraw.OutlineRGBA(iHead.x - w, iHead.y, w * 2, h, 1, drawColor);
+			cDraw.OutlineRGBA(iHead.x - w - 1, iHead.y - 1, w * 2 + 2, h + 2, 1, Color(0, 0, 0, 255));
+			cDraw.OutlineRGBA(iHead.x - w + 1, iHead.y + 1, w * 2 - 2, h - 2, 1, Color(0, 0, 0, 255));
+			int numActive = 0;
+
+			//Name
+			cDraw.DrawString(iHead.x + 2, iHead.y - 14, drawColor, Arial, true, "%s", enemyInfo.name);
 
 			//Health
-			pSurface->DrawSetColor(Color(0, 0, 0, 255));
-			pSurface->DrawFilledRect((int)Screen.x - (Width / 2) - 0.5, (int)Screen.y, (int)Screen.x + (Width/2) + 0.5, (int)Screen.y + 4.25);
-			pSurface->DrawSetColor(drawColor);
-			pSurface->DrawFilledRect((int)Screen.x - (Width / 2), (int)Screen.y + 0.5, (int)Screen.x + (Width/2) * (Health/100), (int)Screen.y + 3.75);
+			int iHealthBarX = iHead.x - w - 1;
+			int iHealthBarY = iHead.y + h + 2;
 
-			//BoneESP(pEntity);
-
-			//boxes
-			pSurface->DrawSetColor(drawColor);
-			Screen.x = Screen.x - (Width / 2);
-			//bottom left 2
-			pSurface->DrawLine(Screen.x, Screen.y, Screen.x + (Width / 4), Screen.y);
-			pSurface->DrawLine(Screen.x, Screen.y, Screen.x, Screen.y - (Height / 4));
-			//bottom right 2
-			pSurface->DrawLine(Screen.x + Width, Screen.y, Screen.x + ((Width / 4) * 3), Screen.y);
-			pSurface->DrawLine(Screen.x + Width, Screen.y, Screen.x + Width, Screen.y - (Height / 4));
-			//top left 2
-			pSurface->DrawLine(Screen.x, Screen.y - Height, Screen.x + (Width / 4), Screen.y - Height);
-			pSurface->DrawLine(Screen.x, Screen.y - Height, Screen.x, Screen.y - ((Height / 4) * 3));
-			//top right 2
-			pSurface->DrawLine(Screen.x + Width, Screen.y - Height, Screen.x + ((Width / 4) * 3), Screen.y - Height);
-			pSurface->DrawLine(Screen.x + Width, Screen.y - Height, Screen.x + Width, Screen.y - ((Height / 4) * 3));
-
+			cDraw.FillRGBA(iHealthBarX, iHealthBarY, w * 2 + 2, 6, Color(0, 0, 0, 200));
+			cDraw.FillRGBA(iHealthBarX + 1, iHealthBarY + 1, w * 2, 4, Color(0, 0, 0, 255));
+			cDraw.FillRGBA(iHealthBarX + 1, iHealthBarY + 1, ((w * 2) / 100 * Health), 4, drawColor);
 		}
 	}
 }

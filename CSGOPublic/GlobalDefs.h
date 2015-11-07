@@ -58,6 +58,7 @@ extern CreateInterfaceFn fnIVGui2;
 #define	GENTITYNUM_BITS		10
 #define	MAX_GENTITIES		( 1 << GENTITYNUM_BITS )
 #define	FL_ONGROUND (1<<0)
+#define FL_DUCKING (1<<1)
 
 #define INTERFACEVERSION_PLAYERINFOMANAGER			"PlayerInfoManager002"
 

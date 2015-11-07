@@ -45,8 +45,17 @@ void CDrawing::OutlinedRect(int x, int y, int w, int h, Color& color)
 void CDrawing::FillRGBA(int x, int y, int w, int h, Color colour)
 {
 	pSurface->DrawSetColor(colour);
-	pSurface->DrawFilledRect(x, y, x - w, y - h);
+	pSurface->DrawFilledRect(x, y, x + w, y + h);
 }
+
+void CDrawing::OutlineRGBA(int x, int y, int w, int h, int lw, Color color)
+{
+	FillRGBA(x, y, w, lw, color);
+	FillRGBA(x, y, lw, h, color);
+	FillRGBA(x, y + h, w + lw, lw, color);
+	FillRGBA(x + w, y, lw, h, color);
+}
+
 void CDrawing::DrawHealthBar(int x, int y, float health, int w, int h, Color Draw)
 {
 	x -= w / 2;
