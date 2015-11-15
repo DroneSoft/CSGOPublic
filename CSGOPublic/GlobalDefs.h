@@ -584,7 +584,7 @@ public:
 	}
 	D3DXVECTOR3 GetPunchAngle()
 	{
-		return *reinterpret_cast< D3DXVECTOR3* >((DWORD)this + (DWORD)0x13E8);
+		return *reinterpret_cast< D3DXVECTOR3* >((DWORD)this + (DWORD)0x2FF8);
 	}
 };
 
